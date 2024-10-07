@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 300px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.display {
+  border: 1px solid salmon;
+  border-radius: 5px;
+  height: 50px;
+  padding: 5px;
+  font-size: 35px;
+  text-align: end;
+}
+
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.btn {
+  border: 1px solid red;
+  border-radius: 5px;
+  /* width: calc(100% / 5); */
+  flex: 1 1 calc(100% / 5);
+  padding: 10px;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.clear {
+  margin-left: 205px;
+  background-color: bisque;
+}
+
+.operator, .equal {
+  background-color: lightblue;
+}
