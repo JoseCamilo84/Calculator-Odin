@@ -10,7 +10,8 @@ html {
 }
 
 .container {
-  border: 1px solid black;
+  background-color: lightgray;
+  border: 1px solid gray;
   border-radius: 5px;
   width: 300px;
   padding: 15px;
@@ -20,11 +21,13 @@ html {
 }
 
 .display {
-  border: 1px solid salmon;
+  background-color: darkseagreen;
+  border: 1px solid seagreen;
   border-radius: 5px;
   height: 50px;
   padding: 5px;
   font-size: 35px;
+  color: rgb(82, 81, 81);
   text-align: end;
 }
 
@@ -35,7 +38,7 @@ html {
 }
 
 .btn {
-  border: 1px solid red;
+  border: 1px solid gray;
   border-radius: 5px;
   /* width: calc(100% / 5); */
   flex: 1 1 calc(100% / 5);
@@ -50,8 +53,13 @@ html {
 .clear {
   margin-left: 205px;
   background-color: bisque;
+  border: 1px solid salmon;
 }
 
 .operator, .equal {
   background-color: lightblue;
+}
+
+.digit {
+  background-color: ghostwhite;
 }

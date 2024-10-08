@@ -64,14 +64,14 @@ function getValueTwo(e) {
 }
 
 function cleanVariables() {
-  // number1 = '';
+  number1 = '';
   number2 = '';
   operator = '';
 }
 
 function mathOperation(e) {
   if (e.target.matches('.equal') && operator !== '' && number1 !== '' && number2 !== '') {
-    // console.log(operate(number1, number2, operator));
+    
     result = operate(number1, number2, operator);
     
     display.textContent = result;
@@ -79,7 +79,6 @@ function mathOperation(e) {
     number2 = '';
     operator = '';
   }
-  // return resultOperation;
 }
 
 function showOnScreen() {
