@@ -50,7 +50,10 @@ function chooseOperator(e) {
 }
 
 function getValueOne(e) {
-  if (e.target.matches('.digit')) {
+  if (result && !e.target.matches('.digit')) {
+    number1 = result;
+    result = 0;
+  } else if (e.target.matches('.digit')) {
     number1 += e.target.textContent;
     display.textContent = number1;
   }
@@ -67,33 +70,46 @@ function cleanVariables() {
   number1 = '';
   number2 = '';
   operator = '';
+  // result = 0;
 }
 
 function mathOperation(e) {
   if (e.target.matches('.equal') && operator !== '' && number1 !== '' && number2 !== '') {
     
     result = operate(number1, number2, operator);
-    
     display.textContent = result;
-    number1 = result;
-    number2 = '';
-    operator = '';
+    cleanVariables();
+
   }
 }
 
 function showOnScreen() {
   buttonsContainer.addEventListener('click', (e) => {
     chooseOperator(e);
+    
     (operator !== '' && number1 !== '') ? getValueTwo(e) : getValueOne(e);
 
     mathOperation(e);
-    console.log(result);
+    console.log(result, operator);
 
-    // if (result && operator === '') {
-    //   console.log('entro aqui');
+    // if (result && e.target.matches('.digit')) {
+    //   // cleanVariables();
     //   number1 = '';
-    //   getValueOne(e);
-    // }
+    //   result = 0;
+    //   console.log('aqui entra', number1, number2, operator, result);
+    
+    // } else if (result && operator !== '') {
+    //   number1 = result;
+    //   number2 = '';
+    //   // operator = '';
+    //   // result = 0;
+      
+    //   console.log('aqui entra en el else', number1, number2, operator, result);
+    //   // getValueTwo(e);
+    // } 
+
+    
+    
     
 
     if (e.target.matches('.clear')) {
@@ -110,7 +126,7 @@ const display = document.querySelector('.display');
 let number1 = '';
 let number2 = '';
 let operator = '';
-let result;
+let result = 0;
 
 display.textContent = 0;
 
