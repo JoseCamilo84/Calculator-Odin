@@ -18,14 +18,11 @@ function divide(value1, value2) {
 function operate(num1, num2, operatorParam) {
   let value1 = parseInt(num1);
   let value2 = parseInt(num2);
-  let resultOfFunction;
+  let resultOfFunction = 0;
   
   switch (operatorParam) {
     case '+':
       resultOfFunction = add(value1, value2);
-      // display.textContent = resultOfFunction;
-      // number1 = display.textContent;
-      // cleanVariables();
       break;
 
     case '-':
@@ -33,101 +30,66 @@ function operate(num1, num2, operatorParam) {
       break;
 
     case 'x':
-      console.log('multiplicar');
+      resultOfFunction = multiply(value1, value2);
       break;
 
     case '/':
-      console.log('dividir');
+      resultOfFunction = divide(value1, value2);
       break;
   }
+
   return resultOfFunction;
 }
 
-function chooseOperator(e) {
-  if (e.target.matches('.operator')) {
-    operator = e.target.textContent;
-  }
-}
-
-function getValueOne(e) {
-  if (result && !e.target.matches('.digit')) {
-    number1 = result;
-    result = 0;
-  } else if (e.target.matches('.digit')) {
-    number1 += e.target.textContent;
-    display.textContent = number1;
-  }
-}
-
-function getValueTwo(e) {
+function displayValueOne(e) {
+  let displayValueOne = '';
   if (e.target.matches('.digit')) {
-    number2 += e.target.textContent;
-    display.textContent = number2;
+    return displayValueOne += e.target.textContent;
   }
 }
 
-function cleanVariables() {
-  number1 = '';
-  number2 = '';
-  operator = '';
-  // result = 0;
-}
-
-function mathOperation(e) {
-  if (e.target.matches('.equal') && operator !== '' && number1 !== '' && number2 !== '') {
-    
-    result = operate(number1, number2, operator);
-    display.textContent = result;
-    cleanVariables();
-
+function displayValueTwo(e) {
+  let displayValueTwo = '';
+  if (e.target.matches('.digit')) {
+    return displayValueTwo += e.target.textContent;
   }
-}
-
-function showOnScreen() {
-  buttonsContainer.addEventListener('click', (e) => {
-    chooseOperator(e);
-    
-    (operator !== '' && number1 !== '') ? getValueTwo(e) : getValueOne(e);
-
-    mathOperation(e);
-    console.log(result, operator);
-
-    // if (result && e.target.matches('.digit')) {
-    //   // cleanVariables();
-    //   number1 = '';
-    //   result = 0;
-    //   console.log('aqui entra', number1, number2, operator, result);
-    
-    // } else if (result && operator !== '') {
-    //   number1 = result;
-    //   number2 = '';
-    //   // operator = '';
-    //   // result = 0;
-      
-    //   console.log('aqui entra en el else', number1, number2, operator, result);
-    //   // getValueTwo(e);
-    // } 
-
-    
-    
-    
-
-    if (e.target.matches('.clear')) {
-      display.textContent = 0;
-      cleanVariables();
-    }
-  });
 }
 
 const buttonsContainer = document.querySelector('.btns');
 const display = document.querySelector('.display');
 
-
+// UNA OPERACION CONSTA DE UN NUM UN OPERADOR Y OTRO NUMERO
 let number1 = '';
 let number2 = '';
 let operator = '';
 let result = 0;
-
 display.textContent = 0;
 
-showOnScreen();
+buttonsContainer.addEventListener('click', (e) => {
+
+  if (operator !== '' && number1 !== '') {
+    number2 += displayValueTwo(e);
+    display.textContent = parseInt(number2);
+  } else {
+    number1 += displayValueOne(e);
+    display.textContent = parseInt(number1);
+  }
+
+  if (e.target.matches('.operator')) operator = e.target.textContent;
+
+  if (e.target.matches('.equal')) {
+    console.log(operate(number1, number2, operator));
+    display.textContent = operate(number1, number2, operator);
+  }
+
+  if (e.target.matches('.clear')) {
+    number1 = '';
+    number2 = '';
+    operator = ''
+    result = 0;
+    display.textContent = 0;
+  }
+  
+});
+
+// Usted ya debe tener el código que puede rellenar la pantalla, por lo que una vez operate() se ha llamado, actualizar la pantalla con la "solución" a la operación. Esta es la parte más difícil del proyecto. Tienes que averiguar cómo almacenar todos los valores y llamar a la función operate con ellos. No te sientas mal si te lleva un tiempo averiguar la lógica.
