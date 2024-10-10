@@ -55,8 +55,13 @@ function displayValueTwo(e) {
   }
 }
 
+function showScreen(value) {
+  display.textContent = value;
+}
+
 const buttonsContainer = document.querySelector('.btns');
 const display = document.querySelector('.display');
+// const operatorBtn = document.querySelector('.operator');
 
 // UNA OPERACION CONSTA DE UN NUM UN OPERADOR Y OTRO NUMERO
 let number1 = '';
@@ -67,19 +72,36 @@ display.textContent = 0;
 
 buttonsContainer.addEventListener('click', (e) => {
 
-  if (operator !== '' && number1 !== '') {
-    number2 += displayValueTwo(e);
-    display.textContent = parseInt(number2);
-  } else {
-    number1 += displayValueOne(e);
-    display.textContent = parseInt(number1);
+  if (e.target.matches('.digit')) {
+    if (operator !== '' && number1 !== '') {
+      console.log('entra aqui', number2);
+      number2 += e.target.textContent;
+      showScreen(parseInt(number2));
+    } else {
+      number1 += e.target.textContent;
+      showScreen(parseInt(number1));
+    }
   }
 
-  if (e.target.matches('.operator')) operator = e.target.textContent;
+  if (e.target.matches('.operator')) {
+    operator = e.target.textContent;
+    e.target.style.background = 'rgb(121, 181, 199)';
+  }
+
+  if (operator !== '' && number1 !== '' && number2 !== '') {
+    result = operate(number1, number2, operator);
+    console.log(result);
+
+    if (e.target.matches('.operator')) {
+      showScreen(result);
+      number1 = result;
+      number2 = '';
+    }
+  }
 
   if (e.target.matches('.equal')) {
-    console.log(operate(number1, number2, operator));
-    display.textContent = operate(number1, number2, operator);
+    showScreen(result);
+    // result = 0;
   }
 
   if (e.target.matches('.clear')) {
@@ -88,8 +110,9 @@ buttonsContainer.addEventListener('click', (e) => {
     operator = ''
     result = 0;
     display.textContent = 0;
+    // operatorBtn.style.background = 'lightblue';
   }
   
 });
 
-// Usted ya debe tener el código que puede rellenar la pantalla, por lo que una vez operate() se ha llamado, actualizar la pantalla con la "solución" a la operación. Esta es la parte más difícil del proyecto. Tienes que averiguar cómo almacenar todos los valores y llamar a la función operate con ellos. No te sientas mal si te lleva un tiempo averiguar la lógica.
+// pulsas un botón numérico (12), seguido de un botón operador (+), un segundo botón numérico (7), y finalmente un segundo botón operador (-). Tu calculadora debería entonces hacer lo siguiente: primero, evaluar el primer par de números (12 + 7), segundo, mostrar el resultado de ese cálculo (19), y finalmente, usar ese resultado (19) como el primer número en tu nuevo cálculo, junto con el siguiente operador (-)
