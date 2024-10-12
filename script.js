@@ -66,7 +66,7 @@ const buttonsContainer = document.querySelector('.btns');
 const display = document.querySelector('.display');
 // const operatorBtn = document.querySelector('.operator');
 
-// UNA OPERACION CONSTA DE UN NUM UN OPERADOR Y OTRO NUMERO
+// UNA OPERACION CONSTA DE UN NUMERO UN OPERADOR Y OTRO NUMERO
 let number1 = '';
 let number2 = '';
 let operator = '';
