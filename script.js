@@ -16,9 +16,12 @@ function divide(value1, value2) {
 }
 
 function operate(num1, num2, operatorParam) {
+  
+  if (operator === '' || number1 === '' || number2 === '') return;
+
   let value1 = parseInt(num1);
   let value2 = parseInt(num2);
-  let resultOfFunction = 0;
+  let resultOfFunction;
   
   switch (operatorParam) {
     case '+':
@@ -70,38 +73,42 @@ let operator = '';
 let result = 0;
 display.textContent = 0;
 
-buttonsContainer.addEventListener('click', (e) => {
+let previousStep = '';
 
-  if (e.target.matches('.digit')) {
-    if (operator !== '' && number1 !== '') {
-      console.log('entra aqui', number2);
-      number2 += e.target.textContent;
-      showScreen(parseInt(number2));
-    } else {
-      number1 += e.target.textContent;
-      showScreen(parseInt(number1));
-    }
-  }
+buttonsContainer.addEventListener('click', (e) => {
 
   if (e.target.matches('.operator')) {
     operator = e.target.textContent;
     e.target.style.background = 'rgb(121, 181, 199)';
   }
 
-  if (operator !== '' && number1 !== '' && number2 !== '') {
-    result = operate(number1, number2, operator);
-    console.log(result);
+  if (e.target.matches('.digit')) {
 
-    if (e.target.matches('.operator')) {
+    if (previousStep === '=') {
+      number1 = '';
+      number2 = '';
+      previousStep = '';
+      result = 0;
+    }
+
+    if (operator !== '' && number1 !== '') {
+      number2 += e.target.textContent;
+      showScreen(parseInt(number2));
+      result = operate(number1, number2, operator);
+    } else {
+      number1 += e.target.textContent;
+      showScreen(parseInt(number1));
+    }
+  }
+    
+  if (e.target.matches('.operator') || e.target.matches('.equal')) {
+    
+    if (result) {
       showScreen(result);
       number1 = result;
       number2 = '';
+      previousStep = e.target.textContent;
     }
-  }
-
-  if (e.target.matches('.equal')) {
-    showScreen(result);
-    // result = 0;
   }
 
   if (e.target.matches('.clear')) {
