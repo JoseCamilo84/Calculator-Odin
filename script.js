@@ -41,6 +41,12 @@ function operate(num1, num2, operatorParam) {
       break;
   }
 
+  if (typeof resultOfFunction === 'string') {
+    display.style.fontSize = '21px';
+    display.style.lineHeight = '35px';
+    return display.textContent = resultOfFunction;
+  }
+
   return resultOfFunction;
 }
 
@@ -116,6 +122,7 @@ buttonsContainer.addEventListener('click', (e) => {
     number2 = '';
     operator = ''
     result = 0;
+    previousStep = '';
     display.textContent = 0;
     // operatorBtn.style.background = 'lightblue';
   }
