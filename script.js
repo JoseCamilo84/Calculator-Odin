@@ -44,24 +44,15 @@ function operate(num1, num2, operatorParam) {
   if (typeof resultOfFunction === 'string') {
     display.style.fontSize = '21px';
     display.style.lineHeight = '35px';
-    return display.textContent = resultOfFunction;
+    showScreen(resultOfFunction);
+    number1 = '';
+    number2 = '';
+    operator = ''
+    resultOfFunction = 0;
+    previousStep = '';
   }
 
   return resultOfFunction;
-}
-
-function displayValueOne(e) {
-  let displayValueOne = '';
-  if (e.target.matches('.digit')) {
-    return displayValueOne += e.target.textContent;
-  }
-}
-
-function displayValueTwo(e) {
-  let displayValueTwo = '';
-  if (e.target.matches('.digit')) {
-    return displayValueTwo += e.target.textContent;
-  }
 }
 
 function showScreen(value) {
@@ -101,8 +92,10 @@ buttonsContainer.addEventListener('click', (e) => {
       number2 += e.target.textContent;
       showScreen(parseInt(number2));
       result = operate(number1, number2, operator);
+      console.log(result);
     } else {
       number1 += e.target.textContent;
+      display.removeAttribute('style');
       showScreen(parseInt(number1));
     }
   }
