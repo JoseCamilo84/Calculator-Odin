@@ -17,7 +17,7 @@ function divide(value1, value2) {
 
 function operate(num1, num2, operatorParam) {
   
-  if (operator === '' || number1 === '' || number2 === '') return;
+  if (operator === '' || number1 === '' || number2 === '') return 0;
 
   let value1 = parseInt(num1);
   let value2 = parseInt(num2);
@@ -56,7 +56,20 @@ function operate(num1, num2, operatorParam) {
 }
 
 function showScreen(value) {
-  display.textContent = value;
+  
+  if (typeof value === 'number') {
+    if (value > 99999999999999) {
+      display.textContent = (value / 1000000).toPrecision(9);
+    } else {
+      display.textContent = value;
+    }
+  }
+
+  if (value.length <= 14) {
+    console.log(value.length);
+    display.textContent = parseInt(value);
+    return true;
+  }
 }
 
 const buttonsContainer = document.querySelector('.btns');
@@ -90,13 +103,16 @@ buttonsContainer.addEventListener('click', (e) => {
 
     if (operator !== '' && number1 !== '') {
       number2 += e.target.textContent;
-      showScreen(parseInt(number2));
-      result = operate(number1, number2, operator);
-      console.log(result);
+      if (showScreen(number2)) {
+        result = operate(number1, number2, operator);
+        console.log(result);
+      }
+      
     } else {
       number1 += e.target.textContent;
       display.removeAttribute('style');
-      showScreen(parseInt(number1));
+      showScreen(number1);
+      console.log('entro aqui');
     }
   }
     
@@ -122,4 +138,4 @@ buttonsContainer.addEventListener('click', (e) => {
   
 });
 
-// pulsas un botón numérico (12), seguido de un botón operador (+), un segundo botón numérico (7), y finalmente un segundo botón operador (-). Tu calculadora debería entonces hacer lo siguiente: primero, evaluar el primer par de números (12 + 7), segundo, mostrar el resultado de ese cálculo (19), y finalmente, usar ese resultado (19) como el primer número en tu nuevo cálculo, junto con el siguiente operador (-)
+// Debes redondear las respuestas con decimales largos para que no desborden la pantalla.
