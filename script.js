@@ -19,8 +19,8 @@ function operate(num1, num2, operatorParam) {
   
   if (operator === '' || number1 === '' || number2 === '') return 0;
 
-  let value1 = parseInt(num1);
-  let value2 = parseInt(num2);
+  let value1 = parseFloat(num1);
+  let value2 = parseFloat(num2);
   let resultOfFunction;
   
   switch (operatorParam) {
@@ -42,8 +42,7 @@ function operate(num1, num2, operatorParam) {
   }
 
   if (typeof resultOfFunction === 'string') {
-    display.style.fontSize = '21px';
-    display.style.lineHeight = '35px';
+    display.classList.add('text-display');
     showScreen(resultOfFunction);
     number1 = '';
     number2 = '';
@@ -60,21 +59,35 @@ function showScreen(value) {
   if (typeof value === 'number') {
     if (value > 99999999999999) {
       display.textContent = (value / 1000000).toPrecision(9);
+    } else if (value.toString().length > 13) {
+      display.textContent = value.toPrecision(2);
     } else {
       display.textContent = value;
     }
   }
 
+  if (value === 'No se puede dividir entre cero') display.textContent = value;
+
   if (value.length <= 14) {
-    console.log(value.length);
-    display.textContent = parseInt(value);
+    display.textContent = parseFloat(value);
     return true;
   }
 }
 
+function searchPointString(stringValue) {
+  return stringValue.includes('.');
+}
+
+function clearVariables() {
+  number1 = '';
+  number2 = '';
+  previousStep = '';
+  result = 0;
+  operator = '';
+}
+
 const buttonsContainer = document.querySelector('.btns');
 const display = document.querySelector('.display');
-// const operatorBtn = document.querySelector('.operator');
 
 // UNA OPERACION CONSTA DE UN NUMERO UN OPERADOR Y OTRO NUMERO
 let number1 = '';
@@ -89,30 +102,39 @@ buttonsContainer.addEventListener('click', (e) => {
 
   if (e.target.matches('.operator')) {
     operator = e.target.textContent;
-    e.target.style.background = 'rgb(121, 181, 199)';
   }
 
   if (e.target.matches('.digit')) {
 
-    if (previousStep === '=') {
-      number1 = '';
-      number2 = '';
-      previousStep = '';
-      result = 0;
-    }
+    if (previousStep === '=') clearVariables();
 
     if (operator !== '' && number1 !== '') {
-      number2 += e.target.textContent;
-      if (showScreen(number2)) {
-        result = operate(number1, number2, operator);
-        console.log(result);
+      
+      if (e.target.textContent === '.' && number2 === '') {
+        number2 = '0.';
+      } else {
+        if (searchPointString(number2)) {
+          if (e.target.textContent !== '.') number2 += e.target.textContent;
+        } else {
+          number2 += e.target.textContent;
+        }
+
+        if (showScreen(number2)) {
+          result = operate(number1, number2, operator);
+        }
       }
       
+    } else if (e.target.textContent === '.' && number1 === '') {
+      number1 = '0.';
     } else {
-      number1 += e.target.textContent;
-      display.removeAttribute('style');
+      if (searchPointString(number1)) {
+        if (e.target.textContent !== '.') number1 += e.target.textContent;
+      } else {
+        number1 += e.target.textContent;
+      }
+      
+      display.classList.remove('text-display');
       showScreen(number1);
-      console.log('entro aqui');
     }
   }
     
@@ -127,15 +149,9 @@ buttonsContainer.addEventListener('click', (e) => {
   }
 
   if (e.target.matches('.clear')) {
-    number1 = '';
-    number2 = '';
-    operator = ''
-    result = 0;
-    previousStep = '';
+    clearVariables();
+    display.classList.remove('text-display');
     display.textContent = 0;
-    // operatorBtn.style.background = 'lightblue';
   }
   
 });
-
-// Debes redondear las respuestas con decimales largos para que no desborden la pantalla.
